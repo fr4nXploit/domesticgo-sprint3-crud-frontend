@@ -1,0 +1,97 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <button mat-icon-button (click)="volver()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>{{isEditing ? 'edit' : 'add'}}</mat-icon>
+        {{isEditing ? 'Editar Reseña' : 'Crear Reseña'}}
+      </h1>
+      <p class="page-subtitle">{{isEditing ? 'Modifica la información de la reseña' : 'Completa los datos de la nueva reseña'}}</p>
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <div class="form-section">
+    <div class="form-card">
+      <form [formGroup]="reseniaForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <!-- Fecha de Reseña -->
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha de Reseña</mat-label>
+              <input matInput [matDatepicker]="pickerFecha" formControlName="fechaResenia" required>
+              <mat-datepicker-toggle matSuffix [for]="pickerFecha"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFecha></mat-datepicker>
+              <mat-error *ngIf="reseniaForm.get('fechaResenia')?.hasError('required')">
+                La fecha de reseña es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Usuario -->
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Usuario</mat-label>
+              <mat-select formControlName="usuario" required>
+                <mat-option *ngFor="let usuario of usuarios" [value]="usuario.idUsuario">
+                  {{getNombreCompleto(usuario)}} - {{usuario.email}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>person</mat-icon>
+              <mat-error *ngIf="reseniaForm.get('usuario')?.hasError('required')">
+                El usuario es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Servicio -->
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Servicio</mat-label>
+              <mat-select formControlName="servicio" required>
+                <mat-option *ngFor="let servicio of servicios" [value]="servicio.idServicio">
+                  Servicio #{{servicio.idServicio}} - {{servicio.tipoServicio}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>build</mat-icon>
+              <mat-error *ngIf="reseniaForm.get('servicio')?.hasError('required')">
+                El servicio es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Detalle de la Reseña -->
+          <div class="form-field full-width">
+            <mat-form-field appearance="outline">
+              <mat-label>Detalle de la Reseña</mat-label>
+              <textarea matInput formControlName="detalleResenia" rows="4" required></textarea>
+              <mat-icon matSuffix>star</mat-icon>
+              <mat-error *ngIf="reseniaForm.get('detalleResenia')?.hasError('required')">
+                El detalle de la reseña es requerido
+              </mat-error>
+              <mat-error *ngIf="reseniaForm.get('detalleResenia')?.hasError('maxlength')">
+                Máximo 500 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="form-actions">
+          <button mat-button type="button" (click)="volver()" class="cancel-button">
+            <mat-icon>close</mat-icon>
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit"
+                   [disabled]="!reseniaForm.valid || loading" class="submit-button">
+            <mat-icon>{{loading ? 'hourglass_empty' : (isEditing ? 'save' : 'add')}}</mat-icon>
+            {{loading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Crear')}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

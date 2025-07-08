@@ -1,0 +1,107 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>description</mat-icon>
+        Gestión de Contratos
+      </h1>
+      <p class="page-subtitle">Administra los contratos del sistema</p>
+    </div>
+    <button mat-fab extended color="primary" routerLink="/contratos/crear" class="fab-button" *ngIf="isAdmin">
+      <mat-icon>add</mat-icon>
+      Nuevo Contrato
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <div class="search-container">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar contratos</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Descripción, contratante, ubicación...">
+        <mat-icon matSuffix class="search-icon">search</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-container" *ngIf="loading">
+    <div class="loading-card">
+      <div class="loading-content">
+        <mat-icon class="loading-icon">hourglass_empty</mat-icon>
+        <p>Cargando contratos...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de contratos -->
+  <div class="items-grid" *ngIf="!loading">
+    <div class="item-card" *ngFor="let contrato of contratosFiltrados">
+      <div class="card-header">
+        <div class="item-avatar">
+          <mat-icon>description</mat-icon>
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">Contrato #{{contrato.idContrato}}</h3>
+          <p class="item-subtitle">{{contrato.fechaInicio | date:'short'}} - {{contrato.fechaFinal | date:'short'}}</p>
+        </div>
+        <div class="item-id">
+          <span class="id-badge">#{{contrato.idContrato}}</span>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="info-row">
+          <mat-icon class="info-icon">description</mat-icon>
+          <span class="info-label">Descripción:</span>
+          <span class="info-value">{{contrato.descripcionContrato | slice:0:50}}{{contrato.descripcionContrato.length > 50 ? '...' : ''}}</span>
+        </div>
+        
+        <div class="info-row">
+          <mat-icon class="info-icon">person</mat-icon>
+          <span class="info-label">Contratante:</span>
+          <span class="info-value">{{contrato.contratante.nombres}} {{contrato.contratante.apellidoPaterno}}</span>
+        </div>
+
+        <div class="info-row">
+          <mat-icon class="info-icon">person_outline</mat-icon>
+          <span class="info-label">Contratado:</span>
+          <span class="info-value">{{contrato.contratado.nombres}} {{contrato.contratado.apellidoPaterno}}</span>
+        </div>
+
+        <div class="info-row">
+          <mat-icon class="info-icon">location_on</mat-icon>
+          <span class="info-label">Ubicación:</span>
+          <span class="info-value">{{contrato.ubicacion.direccion}}</span>
+        </div>
+
+        <div class="info-row" *ngIf="contrato.archivo">
+          <mat-icon class="info-icon">attach_file</mat-icon>
+          <span class="info-label">Archivo:</span>
+          <span class="info-value">{{contrato.archivo}}</span>
+        </div>
+      </div>
+
+      <div class="card-actions" *ngIf="isAdmin">
+        <button mat-button color="primary" [routerLink]="['/contratos/editar', contrato.idContrato]">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+        <button mat-button color="warn" (click)="eliminar(contrato)">
+          <mat-icon>delete</mat-icon>
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="!loading && contratosFiltrados.length === 0">
+    <div class="empty-card">
+      <mat-icon class="empty-icon">description_outlined</mat-icon>
+      <h3>No se encontraron contratos</h3>
+      <p>No hay contratos que coincidan con tu búsqueda</p>
+    </div>
+  </div>
+</div>

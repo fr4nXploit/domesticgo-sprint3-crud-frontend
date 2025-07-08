@@ -1,0 +1,384 @@
+<div class="landing-wrapper">
+  <!-- Header -->
+  <header class="header">
+    <nav class="nav">
+      <div class="nav-brand">
+        <div class="logo-icon">
+          🏠
+        </div>
+        <h1>DomestiGo</h1>
+      </div>
+      <div class="nav-menu" [class.active]="mobileMenuOpen">
+        <a href="#inicio" class="nav-link" (click)="scrollToSection('inicio')">Inicio</a>
+        <a href="#servicios" class="nav-link" (click)="scrollToSection('servicios')">Servicios</a>
+        <a href="#nosotros" class="nav-link" (click)="scrollToSection('nosotros')">Nosotros</a>
+        <a href="#contacto" class="nav-link" (click)="scrollToSection('contacto')">Contacto</a>
+        <button class="login-btn" (click)="goToLogin()">
+          <span class="btn-icon">👤</span>
+          Iniciar Sesión
+        </button>
+      </div>
+      <div class="nav-toggle" (click)="toggleMobileMenu()">
+        <span class="hamburger"></span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="inicio" class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="badge-icon">⭐</span>
+          <span>Plataforma #1 en Servicios</span>
+        </div>
+        
+        <h1 class="hero-title">
+          <span class="title-main">Servicios Domésticos</span>
+          <span class="title-highlight">de Calidad Premium</span>
+        </h1>
+        
+        <p class="hero-subtitle">
+          Conectamos a los mejores profesionales verificados con tu hogar. 
+          Calidad garantizada, confianza asegurada, resultados excepcionales.
+        </p>
+        
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-icon">✅</div>
+            <div class="stat-content">
+              <span class="stat-number">1,500+</span>
+              <span class="stat-label">Servicios Completados</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">👥</div>
+            <div class="stat-content">
+              <span class="stat-number">800+</span>
+              <span class="stat-label">Profesionales Activos</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-content">
+              <span class="stat-number">4.9★</span>
+              <span class="stat-label">Calificación Promedio</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="hero-buttons">
+          <button class="cta-primary" (click)="goToLogin()">
+            <span class="btn-icon">🚀</span>
+            Comenzar Ahora
+          </button>
+          <button class="cta-secondary" (click)="scrollToSection('servicios')">
+            <span class="btn-icon">🔍</span>
+            Explorar Servicios
+          </button>
+        </div>
+      </div>
+      
+      <div class="hero-visual">
+        <div class="hero-icon-container">
+          <div class="main-icon">🏡</div>
+          <div class="floating-icons">
+            <div class="floating-icon icon-1">✅</div>
+            <div class="floating-icon icon-2">⏰</div>
+            <div class="floating-icon icon-3">🔒</div>
+            <div class="floating-icon icon-4">🎧</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="servicios" class="services">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span class="badge-icon">🔧</span>
+          <span>Nuestros Servicios</span>
+        </div>
+        <h2 class="section-title">Servicios Especializados</h2>
+        <p class="section-subtitle">Profesionales certificados para cada necesidad de tu hogar</p>
+      </div>
+      
+      <div class="services-grid">
+        <div class="service-card" *ngFor="let service of services; let i = index">
+          <div class="service-header">
+            <div class="service-icon">{{service.emoji}}</div>
+            <div class="service-badge">Premium</div>
+          </div>
+          <div class="service-content">
+            <h3>{{service.title}}</h3>
+            <p>{{service.description}}</p>
+            <ul class="service-features">
+              <li *ngFor="let feature of service.features">
+                <span class="feature-check">✅</span>
+                {{feature}}
+              </li>
+            </ul>
+            <div class="service-price">
+              <span class="price">Desde S/{{service.price}}</span>
+            </div>
+            <button class="service-btn">
+              <span class="btn-icon">➡️</span>
+              Solicitar Servicio
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="nosotros" class="about">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text">
+          <div class="section-badge">
+            <span class="badge-icon">🏆</span>
+            <span>¿Por qué elegirnos?</span>
+          </div>
+          <h2>La Plataforma Líder en Servicios Domésticos</h2>
+          <p>Con años de experiencia y miles de clientes satisfechos, somos la opción más confiable para el cuidado de tu hogar. Nuestros profesionales están verificados y capacitados para brindarte el mejor servicio.</p>
+          
+          <div class="features-list">
+            <div class="feature-item">
+              <div class="feature-icon">✅</div>
+              <div class="feature-content">
+                <h4>Profesionales Verificados</h4>
+                <p>Riguroso proceso de verificación y certificación para todos nuestros profesionales</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🎧</div>
+              <div class="feature-content">
+                <h4>Soporte 24/7</h4>
+                <p>Atención personalizada las 24 horas para resolver cualquier consulta o emergencia</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🏅</div>
+              <div class="feature-content">
+                <h4>Garantía de Calidad</h4>
+                <p>Garantía extendida en todos nuestros servicios con satisfacción 100% asegurada</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="trust-indicators">
+            <div class="trust-item">
+              <span class="trust-icon">🛡️</span>
+              <span>Empresa Certificada</span>
+            </div>
+            <div class="trust-item">
+              <span class="trust-icon">✅</span>
+              <span>ISO 9001:2015</span>
+            </div>
+            <div class="trust-item">
+              <span class="trust-icon">🔒</span>
+              <span>Datos Protegidos</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="about-visual">
+          <div class="about-icon-grid">
+            <div class="grid-item item-1">
+              <div class="grid-icon">🔧</div>
+              <span>Expertos</span>
+            </div>
+            <div class="grid-item item-2">
+              <div class="grid-icon">⏰</div>
+              <span>Puntual</span>
+            </div>
+            <div class="grid-item item-3">
+              <div class="grid-icon">🛡️</div>
+              <span>Seguro</span>
+            </div>
+            <div class="grid-item item-4">
+              <div class="grid-icon">👍</div>
+              <span>Confiable</span>
+            </div>
+          </div>
+          <div class="about-badge">
+            <div class="badge-icon">🏆</div>
+            <div class="badge-content">
+              <span class="badge-title">Empresa del Año</span>
+              <span class="badge-year">2024</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span class="badge-icon">💬</span>
+          <span>Testimonios</span>
+        </div>
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+      </div>
+      
+      <div class="testimonials-grid">
+        <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">👤</div>
+            <div class="testimonial-info">
+              <h4>{{testimonial.name}}</h4>
+              <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          <p class="testimonial-text">"{{testimonial.text}}"</p>
+          <div class="testimonial-service">
+            <span class="service-emoji">{{testimonial.serviceEmoji}}</span>
+            <span>{{testimonial.service}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contacto" class="contact">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span class="badge-icon">📞</span>
+          <span>Contáctanos</span>
+        </div>
+        <h2 class="section-title">¿Listo para Comenzar?</h2>
+        <p class="section-subtitle">Estamos aquí para ayudarte. Contáctanos y descubre cómo podemos transformar tu hogar</p>
+      </div>
+      
+      <div class="contact-content">
+        <div class="contact-info">
+          <div class="contact-card">
+            <div class="contact-icon">📧</div>
+            <h4>Email Directo</h4>
+            <p>contacto&#64;domestigo.com</p>
+            <span class="contact-label">Respuesta en 2 horas</span>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon">📱</div>
+            <h4>Teléfono</h4>
+            <p>+51 999 888 777</p>
+            <span class="contact-label">Atención 24/7</span>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon">📍</div>
+            <h4>Ubicación</h4>
+            <p>Lima, Perú</p>
+            <span class="contact-label">Cobertura nacional</span>
+          </div>
+        </div>
+        
+        <div class="contact-form-container">
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmitContact()" class="contact-form">
+            <div class="form-header">
+              <span class="form-icon">💬</span>
+              <h3>Envíanos un mensaje</h3>
+            </div>
+            
+            <div class="form-row">
+              <div class="input-group">
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" id="nombre" formControlName="nombre" placeholder="Tu nombre completo">
+                <span class="input-icon">👤</span>
+              </div>
+              <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" formControlName="email" placeholder="tu@email.com">
+                <span class="input-icon">📧</span>
+              </div>
+            </div>
+            
+            <div class="input-group">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" formControlName="telefono" placeholder="+51 999 888 777">
+              <span class="input-icon">📱</span>
+            </div>
+            
+            <div class="input-group">
+              <label for="mensaje">Mensaje</label>
+              <textarea id="mensaje" formControlName="mensaje" rows="4" placeholder="Cuéntanos cómo podemos ayudarte..."></textarea>
+            </div>
+            
+            <button type="submit" [disabled]="contactForm.invalid" class="submit-btn">
+              <span class="btn-icon">📤</span>
+              Enviar Mensaje
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-brand">
+            <div class="footer-logo">🏠</div>
+            <h3>DomestiGo</h3>
+          </div>
+          <p>Tu plataforma de confianza para servicios domésticos de calidad premium. Conectamos profesionales verificados con tu hogar.</p>
+          <div class="social-links">
+            <a href="#" class="social-btn">📘</a>
+            <a href="#" class="social-btn">🐦</a>
+            <a href="#" class="social-btn">📷</a>
+            <a href="#" class="social-btn">💼</a>
+          </div>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Servicios</h4>
+          <a href="#servicios">🔧 Fontanería</a>
+          <a href="#servicios">⚡ Electricidad</a>
+          <a href="#servicios">🧹 Limpieza</a>
+          <a href="#servicios">🔨 Carpintería</a>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Empresa</h4>
+          <a href="#nosotros">ℹ️ Nosotros</a>
+          <a href="#contacto">📧 Contacto</a>
+          <a href="#">📄 Términos</a>
+          <a href="#">🔒 Privacidad</a>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Contacto</h4>
+          <div class="footer-contact">
+            <span class="contact-emoji">📧</span>
+            <span>contacto&#64;domestigo.com</span>
+          </div>
+          <div class="footer-contact">
+            <span class="contact-emoji">📱</span>
+            <span>+51 999 888 777</span>
+          </div>
+          <div class="footer-contact">
+            <span class="contact-emoji">📍</span>
+            <span>Lima, Perú</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2024 DomestiGo. Todos los derechos reservados.</p>
+        <div class="footer-badges">
+          <span class="badge">✅ Empresa Verificada</span>
+          <span class="badge">🔒 Datos Seguros</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

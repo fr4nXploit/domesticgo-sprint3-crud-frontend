@@ -1,0 +1,101 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <button mat-icon-button (click)="volver()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>{{isEditing ? 'edit' : 'add'}}</mat-icon>
+        {{isEditing ? 'Editar Servicio' : 'Crear Servicio'}}
+      </h1>
+      <p class="page-subtitle">{{isEditing ? 'Modifica la información del servicio' : 'Completa los datos del nuevo servicio'}}</p>
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <div class="form-section">
+    <div class="form-card">
+      <form [formGroup]="servicioForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <!-- Estado del Servicio -->
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Estado del Servicio</mat-label>
+              <mat-select formControlName="estadoServicio" required>
+                <mat-option *ngFor="let estado of estadosServicio" [value]="estado.value">
+                  {{estado.label}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>info</mat-icon>
+              <mat-error *ngIf="servicioForm.get('estadoServicio')?.hasError('required')">
+                El estado es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Tipo de Servicio -->
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo de Servicio</mat-label>
+              <mat-select formControlName="tipoServicio" required>
+                <mat-option *ngFor="let tipo of tiposServicio" [value]="tipo.value">
+                  {{tipo.label}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>category</mat-icon>
+              <mat-error *ngIf="servicioForm.get('tipoServicio')?.hasError('required')">
+                El tipo de servicio es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Contrato -->
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Contrato</mat-label>
+              <mat-select formControlName="contrato" required>
+                <mat-option *ngFor="let contrato of contratos" [value]="contrato.idContrato">
+                  Contrato #{{contrato.idContrato}} - {{contrato.descripcionContrato | slice:0:30}}{{contrato.descripcionContrato.length > 30 ? '...' : ''}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>description</mat-icon>
+              <mat-error *ngIf="servicioForm.get('contrato')?.hasError('required')">
+                El contrato es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Reserva -->
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Reserva</mat-label>
+              <mat-select formControlName="reserva" required>
+                <mat-option *ngFor="let reserva of reservas" [value]="reserva.idReserva">
+                  Reserva #{{reserva.idReserva}} - {{reserva.fechaReserva | date:'short'}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>event</mat-icon>
+              <mat-error *ngIf="servicioForm.get('reserva')?.hasError('required')">
+                La reserva es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="form-actions">
+          <button mat-button type="button" (click)="volver()" class="cancel-button">
+            <mat-icon>close</mat-icon>
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit" 
+                  [disabled]="!servicioForm.valid || loading" class="submit-button">
+            <mat-icon>{{loading ? 'hourglass_empty' : (isEditing ? 'save' : 'add')}}</mat-icon>
+            {{loading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Crear')}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

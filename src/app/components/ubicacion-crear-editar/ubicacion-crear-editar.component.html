@@ -1,0 +1,133 @@
+<div class="ubicacion-crear-editar-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <button mat-icon-button (click)="cancelar()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div class="header-text">
+        <h1 class="page-title">{{ tituloFormulario }}</h1>
+        <p class="page-subtitle">Selecciona una ubicación en el mapa y completa la información</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-layout">
+    <!-- Mapa -->
+    <mat-card class="map-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>location_on</mat-icon>
+          Seleccionar Ubicación
+        </mat-card-title>
+        <mat-card-subtitle>Haz clic en el mapa para seleccionar una ubicación o arrastra el marcador</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="map-controls">
+          <button mat-stroked-button (click)="obtenerUbicacionActual()" [disabled]="loading">
+            <mat-icon>my_location</mat-icon>
+            Mi Ubicación
+          </button>
+          <button mat-stroked-button (click)="buscarPorDireccion()" [disabled]="loading">
+            <mat-icon>search</mat-icon>
+            Buscar Dirección
+          </button>
+        </div>
+        <div class="map-container" #mapContainer></div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Formulario -->
+    <mat-card class="form-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>info</mat-icon>
+          Información de la Ubicación
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="ubicacionForm" (ngSubmit)="onSubmit()" class="ubicacion-form">
+          <!-- Dirección -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Dirección</mat-label>
+            <textarea
+              matInput
+              formControlName="direccion"
+              placeholder="Ingrese la dirección completa"
+              rows="3"
+              required>
+            </textarea>
+            <mat-icon matSuffix>location_city</mat-icon>
+            <mat-error *ngIf="ubicacionForm.get('direccion')?.hasError('required')">
+              La dirección es requerida
+            </mat-error>
+            <mat-error *ngIf="ubicacionForm.get('direccion')?.hasError('maxlength')">
+              La dirección no puede exceder 500 caracteres
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Coordenadas -->
+          <div class="coordinates-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Latitud</mat-label>
+              <input
+                matInput
+                formControlName="latitud"
+                type="text"
+                placeholder="-12.046374"
+                readonly
+                required>
+              <mat-icon matSuffix>explore</mat-icon>
+              <mat-error *ngIf="ubicacionForm.get('latitud')?.hasError('required')">
+                La latitud es requerida
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Longitud</mat-label>
+              <input
+                matInput
+                formControlName="longitud"
+                type="text"
+                placeholder="-77.042793"
+                readonly
+                required>
+              <mat-icon matSuffix>explore</mat-icon>
+              <mat-error *ngIf="ubicacionForm.get('longitud')?.hasError('required')">
+                La longitud es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Enlace de Ubicación -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Enlace de Ubicación (Opcional)</mat-label>
+            <input
+              matInput
+              formControlName="enlaceUbicacion"
+              type="url"
+              placeholder="URL externa para ver la ubicación (Google Maps, etc.)">
+            <mat-icon matSuffix>link</mat-icon>
+            <mat-hint>URL externa para ver la ubicación (Google Maps, etc.)</mat-hint>
+            <mat-error *ngIf="ubicacionForm.get('enlaceUbicacion')?.hasError('maxlength')">
+              El enlace no puede exceder 1000 caracteres
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Botones -->
+          <div class="form-actions">
+            <button mat-button type="button" (click)="cancelar()" [disabled]="loading">
+              <mat-icon>cancel</mat-icon>
+              Cancelar
+            </button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="loading || ubicacionForm.invalid">
+              <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+              <mat-icon *ngIf="!loading">{{ isEditMode ? 'update' : 'add_location' }}</mat-icon>
+              {{ textoBoton }}
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

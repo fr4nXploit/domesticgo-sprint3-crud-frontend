@@ -1,0 +1,128 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>location_on</mat-icon>
+        Ubicaciones
+      </h1>
+      <p class="page-subtitle">Gestión de ubicaciones del sistema</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="crear()" class="add-button">
+      <mat-icon>add</mat-icon>
+      Nueva Ubicación
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <mat-card class="filters-card">
+      <mat-card-content>
+        <div class="filters-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Buscar ubicaciones</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="searchTerm" 
+              (input)="onSearchChange()"
+              placeholder="Buscar por dirección"
+            >
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Cargando ubicaciones...</p>
+  </div>
+
+  <!-- Lista de ubicaciones -->
+  <div class="cards-grid" *ngIf="!loading && ubicacionesPaginadas.length > 0">
+    <mat-card *ngFor="let ubicacion of ubicacionesPaginadas" class="location-card">
+      <!-- Miniatura del mapa -->
+      <div class="map-thumbnail" (click)="abrirEnMapa(ubicacion)">
+        <img 
+          [src]="getMapThumbnailUrl(ubicacion)" 
+          [alt]="'Mapa de ' + ubicacion.direccion"
+          class="map-image"
+          (error)="onImageError($event)"
+        >
+        <div class="map-overlay">
+          <mat-icon>open_in_new</mat-icon>
+        </div>
+      </div>
+
+      <!-- Header de la card -->
+      <div class="card-header">
+        <div class="location-icon">
+          <mat-icon>location_on</mat-icon>
+        </div>
+        <div class="location-info">
+          <h3 class="location-title">{{ getDireccionCorta(ubicacion.direccion) }}</h3>
+          <p class="location-coordinates">{{ ubicacion.latitud }}, {{ ubicacion.longitud }}</p>
+          <span class="location-id">#{{ ubicacion.idUbicacion }}</span>
+        </div>
+      </div>
+
+      <!-- Contenido de la card -->
+      <div class="card-content">
+        <div class="info-row">
+          <mat-icon>place</mat-icon>
+          <span class="label">Dirección:</span>
+          <span class="value" [title]="ubicacion.direccion">{{ getDireccionCorta(ubicacion.direccion) }}</span>
+        </div>
+        
+        <div class="info-row">
+          <mat-icon>my_location</mat-icon>
+          <span class="label">Coordenadas:</span>
+          <span class="value coordinates" (click)="copiarCoordenadas(ubicacion)" title="Click para copiar">
+            {{ ubicacion.latitud }}, {{ ubicacion.longitud }}
+          </span>
+        </div>
+
+        <div class="info-row" *ngIf="ubicacion.enlaceUbicacion">
+          <mat-icon>link</mat-icon>
+          <span class="label">Enlace:</span>
+          <a [href]="ubicacion.enlaceUbicacion" target="_blank" class="value link">
+            Ver en mapa externo
+          </a>
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="card-actions">
+        <button mat-button color="primary" (click)="abrirEnMapa(ubicacion)" matTooltip="Abrir en mapa">
+          <mat-icon>map</mat-icon>
+          Ver Mapa
+        </button>
+        <button mat-button color="primary" (click)="editar(ubicacion.idUbicacion)">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+        <button mat-button color="warn" (click)="eliminar(ubicacion)">
+          <mat-icon>delete</mat-icon>
+          Eliminar
+        </button>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Sin resultados -->
+  <div class="no-results" *ngIf="!loading && ubicacionesFiltradas.length === 0">
+    <mat-card class="no-results-card">
+      <div class="no-results-content">
+        <mat-icon class="no-results-icon">location_off</mat-icon>
+        <h3>No se encontraron ubicaciones</h3>
+        <p>No hay ubicaciones registradas en el sistema</p>
+        <button mat-raised-button color="primary" (click)="crear()">
+          <mat-icon>add</mat-icon>
+          Crear Primera Ubicación
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>

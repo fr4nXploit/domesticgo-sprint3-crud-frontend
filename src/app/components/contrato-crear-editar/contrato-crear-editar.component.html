@@ -1,0 +1,133 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <button mat-icon-button (click)="volver()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>{{isEditing ? 'edit' : 'add'}}</mat-icon>
+        {{isEditing ? 'Editar Contrato' : 'Crear Contrato'}}
+      </h1>
+      <p class="page-subtitle">{{isEditing ? 'Modifica la información del contrato' : 'Completa los datos del nuevo contrato'}}</p>
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <div class="form-section">
+    <div class="form-card">
+      <form [formGroup]="contratoForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <!-- Fechas -->
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha de Inicio</mat-label>
+              <input matInput [matDatepicker]="pickerInicio" formControlName="fechaInicio" required>
+              <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+              <mat-datepicker #pickerInicio></mat-datepicker>
+              <mat-error *ngIf="contratoForm.get('fechaInicio')?.hasError('required')">
+                La fecha de inicio es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha Final</mat-label>
+              <input matInput [matDatepicker]="pickerFinal" formControlName="fechaFinal" required>
+              <mat-datepicker-toggle matSuffix [for]="pickerFinal"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFinal></mat-datepicker>
+              <mat-error *ngIf="contratoForm.get('fechaFinal')?.hasError('required')">
+                La fecha final es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Descripción -->
+          <div class="form-field full-width">
+            <mat-form-field appearance="outline">
+              <mat-label>Descripción del Contrato</mat-label>
+              <textarea matInput formControlName="descripcionContrato" rows="4" required></textarea>
+              <mat-icon matSuffix>description</mat-icon>
+              <mat-error *ngIf="contratoForm.get('descripcionContrato')?.hasError('required')">
+                La descripción es requerida
+              </mat-error>
+              <mat-error *ngIf="contratoForm.get('descripcionContrato')?.hasError('maxlength')">
+                Máximo 500 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Archivo -->
+          <div class="form-field full-width">
+            <mat-form-field appearance="outline">
+              <mat-label>Archivo (URL)</mat-label>
+              <input matInput formControlName="archivo">
+              <mat-icon matSuffix>attach_file</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- Usuarios -->
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Contratante</mat-label>
+              <mat-select formControlName="contratante" required>
+                <mat-option *ngFor="let usuario of usuarios" [value]="usuario.idUsuario">
+                  {{usuario.nombres}} {{usuario.apellidoPaterno}} - {{usuario.email}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>person</mat-icon>
+              <mat-error *ngIf="contratoForm.get('contratante')?.hasError('required')">
+                El contratante es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Contratado</mat-label>
+              <mat-select formControlName="contratado" required>
+                <mat-option *ngFor="let usuario of usuarios" [value]="usuario.idUsuario">
+                  {{usuario.nombres}} {{usuario.apellidoPaterno}} - {{usuario.email}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>person_outline</mat-icon>
+              <mat-error *ngIf="contratoForm.get('contratado')?.hasError('required')">
+                El contratado es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Ubicación -->
+          <div class="form-field full-width">
+            <mat-form-field appearance="outline">
+              <mat-label>Ubicación</mat-label>
+              <mat-select formControlName="ubicacion" required>
+                <mat-option *ngFor="let ubicacion of ubicaciones" [value]="ubicacion.idUbicacion">
+                  {{ubicacion.direccion}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>location_on</mat-icon>
+              <mat-error *ngIf="contratoForm.get('ubicacion')?.hasError('required')">
+                La ubicación es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="form-actions">
+          <button mat-button type="button" (click)="volver()" class="cancel-button">
+            <mat-icon>close</mat-icon>
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit" 
+                  [disabled]="!contratoForm.valid || loading" class="submit-button">
+            <mat-icon>{{loading ? 'hourglass_empty' : (isEditing ? 'save' : 'add')}}</mat-icon>
+            {{loading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Crear')}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

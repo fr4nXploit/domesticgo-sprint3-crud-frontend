@@ -1,0 +1,101 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>visibility</mat-icon>
+        Observaciones
+      </h1>
+      <p class="page-subtitle">Gestión de observaciones del sistema</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="crear()" class="add-button">
+      <mat-icon>add</mat-icon>
+      Nueva Observación
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <mat-card class="filters-card">
+      <mat-card-content>
+        <div class="filters-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Buscar observaciones</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="searchTerm" 
+              (input)="onSearchChange()"
+              placeholder="Buscar observaciones"
+            >
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Cargando observaciones...</p>
+  </div>
+
+  <!-- Lista de observaciones -->
+  <div class="cards-grid" *ngIf="!loading && observacionesPaginadas.length > 0">
+    <mat-card *ngFor="let observacion of observacionesPaginadas" class="user-card">
+      <!-- Header de la card -->
+      <div class="card-header">
+        <div class="user-avatar">
+          <mat-icon>visibility</mat-icon>
+        </div>
+        <div class="user-info">
+          <h3 class="user-name">{{ getNombreCompleto(observacion) }}</h3>
+          <p class="user-email">{{ observacion.usuario.email }}</p>
+          <span class="user-id">#{{ observacion.idObservacion }}</span>
+        </div>
+      </div>
+
+      <!-- Contenido de la card -->
+      <div class="card-content">
+        <div class="info-row">
+          <mat-icon>build</mat-icon>
+          <span class="label">Servicio:</span>
+          <span class="value">{{ observacion.servicio.tipoServicio }}</span>
+        </div>
+        
+        <div class="info-row">
+          <mat-icon>calendar_today</mat-icon>
+          <span class="label">Fecha:</span>
+          <span class="value">{{ formatearFecha(observacion.fechaObservacion) }}</span>
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="card-actions">
+        <button mat-button color="primary" (click)="editar(observacion.idObservacion)">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+        <button mat-button color="warn" (click)="eliminar(observacion)">
+          <mat-icon>delete</mat-icon>
+          Eliminar
+        </button>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Sin resultados -->
+  <div class="no-results" *ngIf="!loading && observacionesFiltradas.length === 0">
+    <mat-card class="no-results-card">
+      <div class="no-results-content">
+        <mat-icon class="no-results-icon">search_off</mat-icon>
+        <h3>No se encontraron observaciones</h3>
+        <p>No hay observaciones registradas en el sistema</p>
+        <button mat-raised-button color="primary" (click)="crear()">
+          <mat-icon>add</mat-icon>
+          Crear Primera Observación
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>

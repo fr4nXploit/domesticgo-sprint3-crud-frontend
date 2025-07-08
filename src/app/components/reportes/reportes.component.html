@@ -1,0 +1,207 @@
+<div class="reportes-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-text">
+        <h1 class="page-title">{{ tituloReporte }}</h1>
+        <p class="page-subtitle">Análisis y estadísticas del sistema</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Cargando datos del reporte...</p>
+  </div>
+
+  <!-- Filtros -->
+  <mat-card *ngIf="!loading && (tipoReporteSeleccionado === 'servicios' || tipoReporteSeleccionado === 'pagos')" class="filtros-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>filter_list</mat-icon>
+        Filtros
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="filtrosForm" class="filtros-form">
+        <!-- Filtros para Servicios -->
+        <div *ngIf="tipoReporteSeleccionado === 'servicios'" class="filtros-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Mes</mat-label>
+            <mat-select formControlName="mes">
+              <mat-option value="1">Enero</mat-option>
+              <mat-option value="2">Febrero</mat-option>
+              <mat-option value="3">Marzo</mat-option>
+              <mat-option value="4">Abril</mat-option>
+              <mat-option value="5">Mayo</mat-option>
+              <mat-option value="6">Junio</mat-option>
+              <mat-option value="7">Julio</mat-option>
+              <mat-option value="8">Agosto</mat-option>
+              <mat-option value="9">Septiembre</mat-option>
+              <mat-option value="10">Octubre</mat-option>
+              <mat-option value="11">Noviembre</mat-option>
+              <mat-option value="12">Diciembre</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Año</mat-label>
+            <input matInput type="number" formControlName="anio" min="2020" max="2030">
+          </mat-form-field>
+        </div>
+
+        <!-- Filtros para Pagos -->
+        <div *ngIf="tipoReporteSeleccionado === 'pagos'" class="filtros-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha Inicio</mat-label>
+            <input matInput [matDatepicker]="fechaInicioPicker" formControlName="fechaInicio">
+            <mat-datepicker-toggle matSuffix [for]="fechaInicioPicker"></mat-datepicker-toggle>
+            <mat-datepicker #fechaInicioPicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha Fin</mat-label>
+            <input matInput [matDatepicker]="fechaFinPicker" formControlName="fechaFin">
+            <mat-datepicker-toggle matSuffix [for]="fechaFinPicker"></mat-datepicker-toggle>
+            <mat-datepicker #fechaFinPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="filtros-actions">
+          <button mat-raised-button color="primary" (click)="aplicarFiltros()" [disabled]="loading">
+            <mat-icon>search</mat-icon>
+            Aplicar Filtros
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Contenido del Reporte -->
+  <div *ngIf="!loading" class="reporte-content">
+    <!-- Reporte de Servicios -->
+    <mat-card *ngIf="tipoReporteSeleccionado === 'servicios' && serviciosPorMes.length > 0" class="chart-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>room_service</mat-icon>
+          Servicios por Mes
+        </mat-card-title>
+        <mat-card-subtitle>
+          Total de servicios: {{ getTotalServicios() }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #serviciosChart></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Reporte de Clientes -->
+    <mat-card *ngIf="tipoReporteSeleccionado === 'clientes' && clientesRecurrentes" class="chart-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>people</mat-icon>
+          Clientes Recurrentes
+        </mat-card-title>
+        <mat-card-subtitle>
+          Total de clientes recurrentes: {{ clientesRecurrentes.totalClientesRecurrentes }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #clientesChart></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Reporte de Pagos -->
+    <mat-card *ngIf="tipoReporteSeleccionado === 'pagos' && totalPagos" class="chart-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>payment</mat-icon>
+          Total de Pagos
+        </mat-card-title>
+        <mat-card-subtitle>
+          Monto total: ${{ totalPagos.totalPagos.toLocaleString() }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #pagosChart></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Reporte de Reseñas -->
+    <mat-card *ngIf="tipoReporteSeleccionado === 'resenias' && reseniasPorTrabajador.length > 0" class="chart-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>star</mat-icon>
+          Reseñas por Trabajador
+        </mat-card-title>
+        <mat-card-subtitle>
+          Trabajadores evaluados: {{ reseniasPorTrabajador.length }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #reseniasChart></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Reporte de Pendientes -->
+    <mat-card *ngIf="tipoReporteSeleccionado === 'pendientes' && serviciosPendientes" class="chart-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>pending</mat-icon>
+          Servicios Pendientes
+        </mat-card-title>
+        <mat-card-subtitle>
+          Total pendientes: {{ serviciosPendientes.totalPendientes }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #pendientesChart></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Reporte de Ingresos -->
+    <mat-card *ngIf="tipoReporteSeleccionado === 'ingresos' && ingresosPorServicio.length > 0" class="chart-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>attach_money</mat-icon>
+          Ingresos por Servicio
+        </mat-card-title>
+        <mat-card-subtitle>
+          Ingresos totales: ${{ getTotalIngresos().toLocaleString() }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #ingresosChart></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Mensaje cuando no hay datos -->
+    <mat-card *ngIf="!loading && 
+      ((tipoReporteSeleccionado === 'servicios' && serviciosPorMes.length === 0) ||
+       (tipoReporteSeleccionado === 'clientes' && !clientesRecurrentes) ||
+       (tipoReporteSeleccionado === 'pagos' && !totalPagos) ||
+       (tipoReporteSeleccionado === 'resenias' && reseniasPorTrabajador.length === 0) ||
+       (tipoReporteSeleccionado === 'pendientes' && !serviciosPendientes) ||
+       (tipoReporteSeleccionado === 'ingresos' && ingresosPorServicio.length === 0))" 
+      class="no-data-card">
+      <mat-card-content>
+        <div class="no-data-content">
+          <mat-icon>bar_chart</mat-icon>
+          <h3>No hay datos disponibles</h3>
+          <p>No se encontraron datos para el reporte seleccionado. Intente ajustar los filtros o verifique que existan registros en el sistema.</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

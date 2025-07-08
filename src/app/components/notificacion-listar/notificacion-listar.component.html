@@ -1,0 +1,101 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>notifications</mat-icon>
+        Notificaciones
+      </h1>
+      <p class="page-subtitle">Gestión de notificaciones del sistema</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="crear()" class="add-button" *ngIf="isAdmin">
+      <mat-icon>add</mat-icon>
+      Nueva Notificación
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <mat-card class="filters-card">
+      <mat-card-content>
+        <div class="filters-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Buscar notificaciones</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="searchTerm" 
+              (input)="onSearchChange()"
+              placeholder="Buscar notificaciones"
+            >
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Cargando notificaciones...</p>
+  </div>
+
+  <!-- Lista de notificaciones -->
+  <div class="cards-grid" *ngIf="!loading && notificacionesPaginadas.length > 0">
+    <mat-card *ngFor="let notificacion of notificacionesPaginadas" class="user-card">
+      <!-- Header de la card -->
+      <div class="card-header">
+        <div class="user-avatar">
+          <mat-icon>notifications</mat-icon>
+        </div>
+        <div class="user-info">
+          <h3 class="user-name">{{ getNombreCompleto(notificacion) }}</h3>
+          <p class="user-email">{{ notificacion.usuario.email }}</p>
+          <span class="user-id">#{{ notificacion.idNotificacion }}</span>
+        </div>
+      </div>
+
+      <!-- Contenido de la card -->
+      <div class="card-content">
+        <div class="info-row">
+          <mat-icon>schedule</mat-icon>
+          <span class="label">Fecha:</span>
+          <span class="value">{{ formatearFecha(notificacion.fechaNotificacion) }}</span>
+        </div>
+        
+        <div class="info-row">
+          <mat-icon>message</mat-icon>
+          <span class="label">Detalle:</span>
+          <span class="value">{{ notificacion.detalleNotificacion.substring(0, 30) }}...</span>
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="card-actions">
+        <button mat-button color="primary" (click)="editar(notificacion.idNotificacion)" *ngIf="isAdmin">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+        <button mat-button color="warn" (click)="eliminar(notificacion)" *ngIf="isAdmin">
+          <mat-icon>delete</mat-icon>
+          Eliminar
+        </button>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Sin resultados -->
+  <div class="no-results" *ngIf="!loading && notificacionesFiltradas.length === 0">
+    <mat-card class="no-results-card">
+      <div class="no-results-content">
+        <mat-icon class="no-results-icon">notifications_off</mat-icon>
+        <h3>No se encontraron notificaciones</h3>
+        <p>No hay notificaciones registradas en el sistema</p>
+        <button mat-raised-button color="primary" (click)="crear()" *ngIf="isAdmin">
+          <mat-icon>add</mat-icon>
+          Crear Primera Notificación
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>

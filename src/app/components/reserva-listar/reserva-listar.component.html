@@ -1,0 +1,101 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>event</mat-icon>
+        Reservas
+      </h1>
+      <p class="page-subtitle">Gestión de reservas del sistema</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="crear()" class="add-button">
+      <mat-icon>add</mat-icon>
+      Nueva Reserva
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <mat-card class="filters-card">
+      <mat-card-content>
+        <div class="filters-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Buscar reservas</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="searchTerm" 
+              (input)="onSearchChange()"
+              placeholder="Buscar reservas"
+            >
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Cargando reservas...</p>
+  </div>
+
+  <!-- Lista de reservas -->
+  <div class="cards-grid" *ngIf="!loading && reservasPaginadas.length > 0">
+    <mat-card *ngFor="let reserva of reservasPaginadas" class="user-card">
+      <!-- Header de la card -->
+      <div class="card-header">
+        <div class="user-avatar">
+          <mat-icon>event</mat-icon>
+        </div>
+        <div class="user-info">
+          <h3 class="user-name">Reserva #{{ reserva.idReserva }}</h3>
+          <p class="user-email">{{ formatearFecha(reserva.fechaReserva) }}</p>
+          <span class="user-id">#{{ reserva.idReserva }}</span>
+        </div>
+      </div>
+
+      <!-- Contenido de la card -->
+      <div class="card-content">
+        <div class="info-row">
+          <mat-icon>calendar_today</mat-icon>
+          <span class="label">Fecha:</span>
+          <span class="value">{{ formatearFecha(reserva.fechaReserva) }}</span>
+        </div>
+        
+        <div class="info-row">
+          <mat-icon>description</mat-icon>
+          <span class="label">Detalle:</span>
+          <span class="value">{{ reserva.detalleReserva.substring(0, 30) }}...</span>
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="card-actions">
+        <button mat-button color="primary" (click)="editar(reserva.idReserva)">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+        <button mat-button color="warn" (click)="eliminar(reserva)">
+          <mat-icon>delete</mat-icon>
+          Eliminar
+        </button>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Sin resultados -->
+  <div class="no-results" *ngIf="!loading && reservasFiltradas.length === 0">
+    <mat-card class="no-results-card">
+      <div class="no-results-content">
+        <mat-icon class="no-results-icon">event_busy</mat-icon>
+        <h3>No se encontraron reservas</h3>
+        <p>No hay reservas registradas en el sistema</p>
+        <button mat-raised-button color="primary" (click)="crear()">
+          <mat-icon>add</mat-icon>
+          Crear Primera Reserva
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>

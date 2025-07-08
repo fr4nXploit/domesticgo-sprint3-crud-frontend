@@ -1,0 +1,53 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>chat</mat-icon>
+        Chat DomestiGo
+      </h1>
+      <p class="page-subtitle">Interacción con IA para resolver tus dudas</p>
+    </div>
+  </div>
+
+  <!-- Chat Box -->
+  <div class="chat-box">
+    <div class="chat-container">
+      <!-- Mostrar los mensajes -->
+      <div *ngFor="let message of messages" class="message-container">
+        <div [ngClass]="{'user-message': message.sender === 'user', 'ai-message': message.sender === 'ai'}">
+          <mat-card class="message-card" [innerHTML]="message.text"></mat-card>
+        </div>
+      </div>
+
+      <!-- Spinner de carga -->
+      <div *ngIf="isLoading" class="loading-container">
+        <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+      </div>
+
+      <!-- Botones de preguntas sugeridas -->
+      <div *ngIf="!isLoading && !prompt.trim()" class="question-buttons">
+        <div class="question-button-container">
+          <button *ngFor="let question of suggestedQuestions"
+                  mat-raised-button
+                  color="primary"
+                  class="question-button"
+                  (click)="enviarPregunta(question)">
+            {{ question }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Campo de entrada y botón -->
+      <div class="input-area" *ngIf="!isLoading">
+        <mat-form-field class="input-field" appearance="outline">
+          <input matInput [(ngModel)]="prompt" placeholder="Escribe tu mensaje..." />
+        </mat-form-field>
+        <button mat-raised-button color="accent" (click)="enviarMensaje()"
+                [disabled]="!prompt.trim()" class="send-button">
+          Enviar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <button mat-icon-button (click)="volver()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>{{isEditing ? 'edit' : 'person_add'}}</mat-icon>
+        {{isEditing ? 'Editar Usuario' : 'Crear Usuario'}}
+      </h1>
+      <p class="page-subtitle">{{isEditing ? 'Modifica la información del usuario' : 'Completa los datos del nuevo usuario'}}</p>
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <div class="form-section">
+    <div class="form-card">
+      <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <!-- Nombres -->
+          <div class="form-field full-width">
+            <mat-form-field appearance="outline">
+              <mat-label>Nombres</mat-label>
+              <input matInput formControlName="nombres" required>
+              <mat-icon matSuffix>person</mat-icon>
+              <mat-error *ngIf="usuarioForm.get('nombres')?.hasError('required')">
+                Los nombres son requeridos
+              </mat-error>
+              <mat-error *ngIf="usuarioForm.get('nombres')?.hasError('maxlength')">
+                Máximo 100 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Apellidos -->
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Apellido Paterno</mat-label>
+              <input matInput formControlName="apellidoPaterno">
+              <mat-error *ngIf="usuarioForm.get('apellidoPaterno')?.hasError('maxlength')">
+                Máximo 50 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Apellido Materno</mat-label>
+              <input matInput formControlName="apellidoMaterno">
+              <mat-error *ngIf="usuarioForm.get('apellidoMaterno')?.hasError('maxlength')">
+                Máximo 50 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Email -->
+          <div class="form-field full-width">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" formControlName="email" required>
+              <mat-icon matSuffix>email</mat-icon>
+              <mat-error *ngIf="usuarioForm.get('email')?.hasError('required')">
+                El email es requerido
+              </mat-error>
+              <mat-error *ngIf="usuarioForm.get('email')?.hasError('email')">
+                Formato de email inválido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Foto -->
+          <div class="form-field full-width">
+            <mat-form-field appearance="outline">
+              <mat-label>Foto (URL)</mat-label>
+              <input matInput formControlName="foto">
+              <mat-icon matSuffix>image</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- Empleo -->
+          <div class="form-field full-width">
+            <mat-form-field appearance="outline">
+              <mat-label>Empleo</mat-label>
+              <mat-select formControlName="empleo" required>
+                <mat-option *ngFor="let empleo of empleos" [value]="empleo.idEmpleo">
+                  {{empleo.nombreEmpleo}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>work</mat-icon>
+              <mat-error *ngIf="usuarioForm.get('empleo')?.hasError('required')">
+                El empleo es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="form-actions">
+          <button mat-button type="button" (click)="volver()" class="cancel-button">
+            <mat-icon>close</mat-icon>
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit" 
+                  [disabled]="!usuarioForm.valid || loading" class="submit-button">
+            <mat-icon>{{loading ? 'hourglass_empty' : (isEditing ? 'save' : 'add')}}</mat-icon>
+            {{loading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Crear')}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

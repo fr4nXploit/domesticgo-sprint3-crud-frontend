@@ -1,0 +1,192 @@
+<mat-toolbar class="navbar">
+  <div class="navbar-content">
+    <!-- Logo y título -->
+    <div class="navbar-brand" (click)="navigateTo('/inicio')">
+      <mat-icon class="brand-icon">home_work</mat-icon>
+      <span class="brand-text">DomesticGo</span>
+    </div>
+
+    <!-- Menú de navegación -->
+    <div class="navbar-menu">
+      <!-- Inicio -->
+      <button mat-button class="nav-item" routerLink="/inicio" routerLinkActive="active">
+        <mat-icon>dashboard</mat-icon>
+        <span>Inicio</span>
+      </button>
+
+      <!-- Gestión de Usuarios (Solo Admin) -->
+      <button mat-button [matMenuTriggerFor]="usuariosMenu" class="nav-item" *ngIf="isAdmin">
+        <mat-icon>people</mat-icon>
+        <span>Usuarios</span>
+        <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #usuariosMenu="matMenu" class="custom-menu">
+        <button mat-menu-item routerLink="/usuarios">
+          <mat-icon>list</mat-icon>
+          <span>Ver Usuarios</span>
+        </button>
+        <button mat-menu-item routerLink="/usuarios/crear">
+          <mat-icon>person_add</mat-icon>
+          <span>Crear Usuario</span>
+        </button>
+      </mat-menu>
+
+      <!-- Gestión de Empleos -->
+      <button mat-button [matMenuTriggerFor]="empleosMenu" class="nav-item">
+        <mat-icon>work</mat-icon>
+        <span>Empleos</span>
+        <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #empleosMenu="matMenu" class="custom-menu">
+        <button mat-menu-item routerLink="/empleos">
+          <mat-icon>list</mat-icon>
+          <span>Ver Empleos</span>
+        </button>
+        <button mat-menu-item routerLink="/empleos/crear" *ngIf="isAdmin">
+          <mat-icon>add_business</mat-icon>
+          <span>Crear Empleo</span>
+        </button>
+      </mat-menu>
+
+      <!-- Servicios -->
+      <button mat-button [matMenuTriggerFor]="serviciosMenu" class="nav-item">
+        <mat-icon>room_service</mat-icon>
+        <span>Servicios</span>
+        <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #serviciosMenu="matMenu" class="custom-menu">
+        <button mat-menu-item routerLink="/servicios">
+          <mat-icon>list</mat-icon>
+          <span>Ver Servicios</span>
+        </button>
+        <button mat-menu-item routerLink="/servicios/crear" *ngIf="isAdmin">
+          <mat-icon>add</mat-icon>
+          <span>Crear Servicio</span>
+        </button>
+      </mat-menu>
+
+      <!-- Contratos -->
+      <button mat-button [matMenuTriggerFor]="contratosMenu" class="nav-item">
+        <mat-icon>description</mat-icon>
+        <span>Contratos</span>
+        <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #contratosMenu="matMenu" class="custom-menu">
+        <button mat-menu-item routerLink="/contratos">
+          <mat-icon>list</mat-icon>
+          <span>Ver Contratos</span>
+        </button>
+        <button mat-menu-item routerLink="/contratos/crear" *ngIf="isAdmin">
+          <mat-icon>add</mat-icon>
+          <span>Crear Contrato</span>
+        </button>
+      </mat-menu>
+
+      <!-- Comunicación -->
+      <button mat-button [matMenuTriggerFor]="comunicacionMenu" class="nav-item">
+        <mat-icon>forum</mat-icon>
+        <span>Comunicación</span>
+        <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #comunicacionMenu="matMenu" class="custom-menu">
+        <button mat-menu-item routerLink="/chats">
+          <mat-icon>chat</mat-icon>
+          <span>Chats</span>
+        </button>
+        <!-- Notificaciones -->
+        <button mat-menu-item routerLink="/notificaciones">
+          <mat-icon>notifications</mat-icon>
+          <span>Ver Notificaciones</span>
+        </button>
+        <button mat-menu-item routerLink="/notificaciones/crear" *ngIf="isAdmin">
+          <mat-icon>add_alert</mat-icon>
+          <span>Crear Notificación</span>
+        </button>
+      </mat-menu>
+
+      <!-- Gestión de Contenido -->
+      <button mat-button [matMenuTriggerFor]="contenidoMenu" class="nav-item">
+        <mat-icon>content_paste</mat-icon>
+        <span>Contenido</span>
+        <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #contenidoMenu="matMenu" class="custom-menu">
+        <button mat-menu-item routerLink="/observaciones">
+          <mat-icon>visibility</mat-icon>
+          <span>Observaciones</span>
+        </button>
+        <button mat-menu-item routerLink="/resenias">
+          <mat-icon>star</mat-icon>
+          <span>Reseñas</span>
+        </button>
+        <button mat-menu-item routerLink="/reservas">
+          <mat-icon>event</mat-icon>
+          <span>Reservas</span>
+        </button>
+        <button mat-menu-item routerLink="/ubicaciones">
+          <mat-icon>location_on</mat-icon>
+          <span>Ubicaciones</span>
+        </button>
+      </mat-menu>
+
+      <!-- Finanzas -->
+      <button mat-button [matMenuTriggerFor]="finanzasMenu" class="nav-item">
+        <mat-icon>account_balance</mat-icon>
+        <span>Finanzas</span>
+        <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #finanzasMenu="matMenu" class="custom-menu">
+        <button mat-menu-item routerLink="/pagos">
+          <mat-icon>payment</mat-icon>
+          <span>Pagos</span>
+        </button>
+        <button mat-menu-item routerLink="/pagos/crear" *ngIf="isAdmin">
+          <mat-icon>add</mat-icon>
+          <span>Registrar Pago</span>
+        </button>
+      </mat-menu>
+
+      <!-- Reportes (Solo Admin) - SIN Dashboard General -->
+    <button mat-button [matMenuTriggerFor]="reportesMenu" class="nav-item" *ngIf="isAdmin">
+    <mat-icon>analytics</mat-icon>
+    <span>Reportes</span>
+    <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #reportesMenu="matMenu" class="custom-menu">
+    <button mat-menu-item (click)="navigateToReportes('servicios')">
+        <mat-icon>room_service</mat-icon>
+        <span>Servicios por Mes</span>
+    </button>
+    <button mat-menu-item (click)="navigateToReportes('clientes')">
+        <mat-icon>people</mat-icon>
+        <span>Clientes Recurrentes</span>
+    </button>
+    <button mat-menu-item (click)="navigateToReportes('pagos')">
+        <mat-icon>payment</mat-icon>
+        <span>Total de Pagos</span>
+    </button>
+    <button mat-menu-item (click)="navigateToReportes('resenias')">
+        <mat-icon>star</mat-icon>
+        <span>Reseñas por Trabajador</span>
+    </button>
+    <button mat-menu-item (click)="navigateToReportes('pendientes')">
+        <mat-icon>pending</mat-icon>
+        <span>Servicios Pendientes</span>
+    </button>
+    <button mat-menu-item (click)="navigateToReportes('ingresos')">
+        <mat-icon>attach_money</mat-icon>
+        <span>Ingresos por Servicio</span>
+    </button>
+    </mat-menu>
+    </div>
+
+    <!-- Usuario y logout -->
+    <div class="navbar-user">
+      <button mat-button class="user-button" (click)="logout()">
+        <mat-icon>account_circle</mat-icon>
+        <span class="username">{{currentUser?.username}}</span>
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>

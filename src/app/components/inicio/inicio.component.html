@@ -1,0 +1,119 @@
+<div class="inicio-container">
+  <!-- Header de bienvenida -->
+  <div class="welcome-section">
+    <div class="welcome-content">
+      <h1 class="welcome-title">
+        {{getGreeting()}}, {{currentUser?.username}}
+      </h1>
+      <p class="welcome-subtitle">
+        Bienvenido al sistema de gestión DomesticGo
+      </p>
+      <div class="user-badge">
+        <mat-icon>{{isAdmin ? 'admin_panel_settings' : 'person'}}</mat-icon>
+        <span>{{currentUser?.roles}}</span>
+      </div>
+    </div>
+    <div class="welcome-illustration">
+      <mat-icon class="large-icon">dashboard</mat-icon>
+    </div>
+  </div>
+
+  <!-- Estadísticas (Solo para Admin) -->
+  <div class="stats-section" *ngIf="isAdmin">
+    <h2 class="section-title">Resumen del Sistema</h2>
+    <div class="stats-grid">
+      <mat-card class="stat-card">
+        <div class="stat-content">
+          <div class="stat-icon" style="background-color: #6366f1;">
+            <mat-icon>people</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-value">{{totalUsuarios}}</h3>
+            <p class="stat-title">Usuarios</p>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <div class="stat-content">
+          <div class="stat-icon" style="background-color: #059669;">
+            <mat-icon>work</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-value">{{totalEmpleos}}</h3>
+            <p class="stat-title">Empleos</p>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <div class="stat-content">
+          <div class="stat-icon" style="background-color: #dc2626;">
+            <mat-icon>room_service</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-value">{{totalServicios}}</h3>
+            <p class="stat-title">Servicios</p>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <div class="stat-content">
+          <div class="stat-icon" style="background-color: #7c3aed;">
+            <mat-icon>description</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-value">{{totalContratos}}</h3>
+            <p class="stat-title">Contratos</p>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Acciones rápidas -->
+  <div class="actions-section">
+    <h2 class="section-title">Acciones Rápidas</h2>
+    <div class="actions-grid">
+      <mat-card 
+        class="action-card" 
+        *ngFor="let action of quickActions" 
+        [routerLink]="action.route"
+        [class.hidden]="action.adminOnly && !isAdmin">
+        <div class="action-content">
+          <div class="action-icon" [style.background-color]="action.color">
+            <mat-icon>{{action.icon}}</mat-icon>
+          </div>
+          <h3 class="action-title">{{action.title}}</h3>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Información adicional -->
+  <div class="info-section">
+    <div class="info-grid">
+      <mat-card class="info-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>info</mat-icon>
+          <mat-card-title>Información del Sistema</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Sistema de gestión integral para servicios domésticos. Administra usuarios, empleos, contratos y servicios de manera eficiente.</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="info-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>support</mat-icon>
+          <mat-card-title>Soporte</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>¿Necesitas ayuda? Contacta con nuestro equipo de soporte técnico para resolver cualquier duda o problema.</p>
+          <button mat-button color="primary">Contactar Soporte</button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

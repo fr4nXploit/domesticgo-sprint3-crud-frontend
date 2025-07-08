@@ -1,0 +1,265 @@
+.inicio-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 88px);
+}
+
+.welcome-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+}
+
+.welcome-content {
+  flex: 1;
+}
+
+.welcome-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.welcome-subtitle {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f3f4f6;
+  color: #374151;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid #e5e7eb;
+}
+
+.welcome-illustration {
+  flex: 0 0 auto;
+  margin-left: 20px;
+}
+
+.large-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #9ca3af;
+  opacity: 0.7;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+.stats-section {
+  margin-bottom: 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  border: 1px solid #f3f4f6;
+}
+
+.stat-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.stat-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.stat-icon mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.stat-info {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 2px 0;
+}
+
+.stat-title {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+  font-weight: 500;
+}
+
+.actions-section {
+  margin-bottom: 24px;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.action-card {
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+}
+
+.action-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.action-card.hidden {
+  display: none;
+}
+
+.action-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.action-icon mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.action-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+}
+
+.info-section {
+  margin-top: 24px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.info-card {
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  border: 1px solid #f3f4f6;
+}
+
+.info-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.info-card mat-card-header {
+  padding-bottom: 8px;
+}
+
+.info-card mat-icon[mat-card-avatar] {
+  background: #6366f1;
+  color: white;
+}
+
+.info-card mat-card-content p {
+  color: #6b7280;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .inicio-container {
+    padding: 16px;
+  }
+
+  .welcome-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .welcome-illustration {
+    margin-left: 0;
+    margin-top: 12px;
+  }
+
+  .welcome-title {
+    font-size: 1.3rem;
+  }
+
+  .large-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .stats-grid,
+  .actions-grid,
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}

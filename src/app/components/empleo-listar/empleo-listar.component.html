@@ -1,0 +1,89 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>work</mat-icon>
+        Gestión de Empleos
+      </h1>
+      <p class="page-subtitle">Administra los empleos del sistema</p>
+    </div>
+    <button mat-fab extended color="primary" routerLink="/empleos/crear" class="fab-button" *ngIf="isAdmin">
+      <mat-icon>add</mat-icon>
+      Nuevo Empleo
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <div class="search-container">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar empleos</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Nombre del empleo...">
+        <mat-icon matSuffix class="search-icon">search</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-container" *ngIf="loading">
+    <div class="loading-card">
+      <div class="loading-content">
+        <mat-icon class="loading-icon">hourglass_empty</mat-icon>
+        <p>Cargando empleos...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de empleos -->
+  <div class="items-grid" *ngIf="!loading">
+    <div class="item-card" *ngFor="let empleo of empleosFiltrados">
+      <div class="card-header">
+        <div class="item-avatar">
+          <mat-icon>work</mat-icon>
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">{{empleo.nombreEmpleo}}</h3>
+          <p class="item-subtitle">Empleo disponible</p>
+        </div>
+        <div class="item-id">
+          <span class="id-badge">#{{empleo.idEmpleo}}</span>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="info-row">
+          <mat-icon class="info-icon">info</mat-icon>
+          <span class="info-label">ID:</span>
+          <span class="info-value">{{empleo.idEmpleo}}</span>
+        </div>
+        
+        <div class="info-row">
+          <mat-icon class="info-icon">work_outline</mat-icon>
+          <span class="info-label">Nombre:</span>
+          <span class="info-value">{{empleo.nombreEmpleo}}</span>
+        </div>
+      </div>
+
+      <div class="card-actions" *ngIf="isAdmin">
+        <button mat-button color="primary" [routerLink]="['/empleos/editar', empleo.idEmpleo]">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+        <button mat-button color="warn" (click)="eliminar(empleo)">
+          <mat-icon>delete</mat-icon>
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="!loading && empleosFiltrados.length === 0">
+    <div class="empty-card">
+      <mat-icon class="empty-icon">work_outline</mat-icon>
+      <h3>No se encontraron empleos</h3>
+      <p>No hay empleos que coincidan con tu búsqueda</p>
+    </div>
+  </div>
+</div>

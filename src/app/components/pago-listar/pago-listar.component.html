@@ -1,0 +1,107 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>payment</mat-icon>
+        Pagos
+      </h1>
+      <p class="page-subtitle">Gestión de pagos del sistema</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="crear()" class="add-button">
+      <mat-icon>add</mat-icon>
+      Nuevo Pago
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <mat-card class="filters-card">
+      <mat-card-content>
+        <div class="filters-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Buscar pagos</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="searchTerm" 
+              (input)="onSearchChange()"
+              placeholder="Buscar pagos"
+            >
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Cargando pagos...</p>
+  </div>
+
+  <!-- Lista de pagos -->
+  <div class="cards-grid" *ngIf="!loading && pagosPaginados.length > 0">
+    <mat-card *ngFor="let pago of pagosPaginados" class="user-card">
+      <!-- Header de la card -->
+      <div class="card-header">
+        <div class="user-avatar">
+          <mat-icon>payment</mat-icon>
+        </div>
+        <div class="user-info">
+          <h3 class="user-name">Pago #{{ pago.idPago }}</h3>
+          <p class="user-email">{{ pago.tipoPago }} - {{ pago.bancoPago }}</p>
+          <span class="user-id">#{{ pago.idPago }}</span>
+        </div>
+      </div>
+
+      <!-- Contenido de la card -->
+      <div class="card-content">
+        <div class="info-row">
+          <mat-icon>attach_money</mat-icon>
+          <span class="label">Monto:</span>
+          <span class="value amount">${{ pago.montoPago.toLocaleString() }}</span>
+        </div>
+        
+        <div class="info-row">
+          <mat-icon>calendar_today</mat-icon>
+          <span class="label">Fecha:</span>
+          <span class="value">{{ formatearFecha(pago.fechaPago) }}</span>
+        </div>
+
+        <div class="info-row">
+          <mat-icon>receipt</mat-icon>
+          <span class="label">Comprobante:</span>
+          <span class="value">{{ pago.tipoComprobante }}</span>
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="card-actions">
+        <button mat-button color="primary" (click)="editar(pago.idPago)">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+        <button mat-button color="warn" (click)="eliminar(pago)">
+          <mat-icon>delete</mat-icon>
+          Eliminar
+        </button>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Sin resultados -->
+  <div class="no-results" *ngIf="!loading && pagosFiltrados.length === 0">
+    <mat-card class="no-results-card">
+      <div class="no-results-content">
+        <mat-icon class="no-results-icon">money_off</mat-icon>
+        <h3>No se encontraron pagos</h3>
+        <p>No hay pagos registrados en el sistema</p>
+        <button mat-raised-button color="primary" (click)="crear()">
+          <mat-icon>add</mat-icon>
+          Crear Primer Pago
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>

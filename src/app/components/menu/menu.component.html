@@ -1,0 +1,89 @@
+<mat-toolbar color="primary">
+  <span>DomesticGo - Sistema de Gestión</span>
+  <span class="spacer"></span>
+  <button mat-button (click)="logout()">Cerrar Sesión</button>
+</mat-toolbar>
+
+<div class="menu-container">
+  <div class="menu-grid">
+    <mat-card class="menu-card" (click)="navigateTo('/usuarios')">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>people</mat-icon>
+        <mat-card-title>Usuarios</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Gestionar usuarios del sistema
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="menu-card" (click)="navigateTo('/empleos')">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>work</mat-icon>
+        <mat-card-title>Empleos</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Gestionar tipos de empleo
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="menu-card" (click)="navigateTo('/contratos')">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>description</mat-icon>
+        <mat-card-title>Contratos</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Gestionar contratos de servicio
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="menu-card" (click)="navigateTo('/servicios')">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>room_service</mat-icon>
+        <mat-card-title>Servicios</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Gestionar servicios disponibles
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="menu-card" (click)="navigateTo('/pagos')">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>payment</mat-icon>
+        <mat-card-title>Pagos</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Gestionar pagos realizados
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="menu-card" (click)="navigateTo('/chats')">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>chat</mat-icon>
+        <mat-card-title>Chats</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Gestionar mensajes del sistema
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="menu-card" (click)="navigateTo('/notificaciones')">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>notifications</mat-icon>
+        <mat-card-title>Notificaciones</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Gestionar notificaciones
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="menu-card" (click)="navigateTo('/ubicaciones')">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>location_on</mat-icon>
+        <mat-card-title>Ubicaciones</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Gestionar ubicaciones de servicio
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

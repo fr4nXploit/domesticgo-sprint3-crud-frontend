@@ -1,0 +1,54 @@
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <button mat-icon-button (click)="volver()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>{{isEditing ? 'edit' : 'add_business'}}</mat-icon>
+        {{isEditing ? 'Editar Empleo' : 'Crear Empleo'}}
+      </h1>
+      <p class="page-subtitle">
+        {{isEditing ? 'Modifica la información del empleo' : 'Completa los datos del nuevo empleo'}}
+      </p>
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <div class="form-section">
+    <div class="form-card">
+      <form [formGroup]="empleoForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <!-- Nombre del Empleo -->
+          <div class="form-field full-width">
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre del Empleo</mat-label>
+              <input matInput formControlName="nombreEmpleo" required maxlength="50">
+              <mat-icon matSuffix>work</mat-icon>
+              <mat-error *ngIf="empleoForm.get('nombreEmpleo')?.hasError('required')">
+                El nombre del empleo es requerido
+              </mat-error>
+              <mat-error *ngIf="empleoForm.get('nombreEmpleo')?.hasError('maxlength')">
+                Máximo 50 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="form-actions">
+          <button mat-button type="button" (click)="volver()" class="cancel-button">
+            <mat-icon>close</mat-icon>
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit"
+                  [disabled]="!empleoForm.valid || loading" class="submit-button">
+            <mat-icon>{{loading ? 'hourglass_empty' : (isEditing ? 'save' : 'add')}}</mat-icon>
+            {{loading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Crear')}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
