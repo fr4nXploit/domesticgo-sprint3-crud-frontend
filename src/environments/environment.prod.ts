@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: "http://localhost:8086",
+  apiUrl: "https://domesticgo-backend-production.up.railway.app",
 }

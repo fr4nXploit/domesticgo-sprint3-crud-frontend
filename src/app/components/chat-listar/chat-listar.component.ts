@@ -19,7 +19,7 @@ import { ChatService } from '../../services/chat.service';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatCardModule
+    MatCardModule,
   ],
   templateUrl: './chat-listar.component.html',
   styleUrls: ['./chat-listar.component.css']

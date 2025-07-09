@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "name": "domesticgo-sprint3-crud-frontend",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/domesticgo-sprint3-crud-frontend"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

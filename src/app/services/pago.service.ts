@@ -52,7 +52,7 @@ export class PagoService {
 
   // Reporte disponible
   obtenerTotalPagos(fechaInicio: string, fechaFin: string): Observable<TotalPagosDTO> {
-    return this.http.get<TotalPagosDTO>(`${this.apiUrl}/total-pagos?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`, {
+    return this.http.get<TotalPagosDTO>(`${this.apiUrl}/Total-pagos?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`, {
       headers: this.getHeaders(),
     })
   }
